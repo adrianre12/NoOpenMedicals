@@ -44,8 +44,7 @@ namespace NoOpenMedicals
 
         public override void UpdateAfterSimulation100() // only on client
         {
-            //Log.Msg($"Tick {block.CubeGrid.DisplayName} shareMode={block.IDModule.ShareMode}");
-            if (block.IDModule.ShareMode == VRage.Game.MyOwnershipShareModeEnum.All)
+            if (block.IDModule?.ShareMode == VRage.Game.MyOwnershipShareModeEnum.All) // no ownersip probably a refil station
             {
                 Log.Msg("Found ShareMode=All");
                 triggerChange.Value = !triggerChange.Value;
