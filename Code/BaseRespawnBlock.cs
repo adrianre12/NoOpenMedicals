@@ -11,7 +11,6 @@ namespace NoOpenMedicals
     internal class BaseRespawnBlock : MyGameLogicComponent
     {
         protected MyCubeBlock block;
-
         private MySync<bool, SyncDirection.BothWays> triggerChange;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
@@ -46,7 +45,16 @@ namespace NoOpenMedicals
         {
             if (block.IDModule?.ShareMode == VRage.Game.MyOwnershipShareModeEnum.All) // no ownersip probably a refil station
             {
-                Log.Msg("Found ShareMode=All");
+                string ownerTag = block.GetOwnerFactionTag();
+                var instance = NOMconfig.Instance;
+                if (instance == null)
+                {
+                    Log.Msg("NOMconfig.Instance=null");
+                    return;
+                }
+                if (instance.ExcludeFactionTag(ownerTag))
+                    return;
+                if (Log.Debug) Log.Msg("Found ShareMode=All");
                 triggerChange.Value = !triggerChange.Value;
             }
         }
